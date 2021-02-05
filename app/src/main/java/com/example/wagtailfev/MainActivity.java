@@ -1,27 +1,16 @@
 package com.example.wagtailfev;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.widget.EditText;
+import android.widget.TextView;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.nio.charset.StandardCharsets;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 public class MainActivity extends AppCompatActivity {
-
-    private String FILENAME = "wagtailfev.txt";
+    private final Florence flory = new Florence(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +18,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        updateLatest();
+    }
+
+    void updateLatest() {
+        TextView text = (TextView)findViewById(R.id.textView);
+        text.setText(flory.getLatest());
+        clearEditText();
     }
 
     @Override
@@ -40,56 +41,32 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_clear) {
-            deleteFile();
+            clearRecord();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    void clearRecord() {
+        flory.deleteFile();
+        updateLatest();
+    }
+
+    void clearEditText() {
+        getEditText().setText("");
+    }
+
     @Override
     protected void onStop() {
         super.onStop();
-        String str = readFile();
-        writeFile(str + "37.0\n");
+        flory.appendRecord(readEditText());
     }
 
-    private String readFile() {
-        StringBuilder buf = new StringBuilder();
-        try {
-            FileInputStream fis = openFileInput(FILENAME);
-            InputStreamReader isr = new InputStreamReader(fis, StandardCharsets.UTF_8);
-            try (BufferedReader reader = new BufferedReader(isr)) {
-                String line = reader.readLine();
-                while (line != null) {
-                    buf.append(line).append('\n');
-                    line = reader.readLine();
-                }
-                return buf.toString();
-            } catch (IOException e) {
-                Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
-                return buf.toString();
-            }
-        } catch (FileNotFoundException e) {
-            return "";
-        }
+    private String readEditText() {
+        return getEditText().getText().toString();
     }
 
-    private void writeFile(String str) {
-        try {
-            FileOutputStream fos = openFileOutput(FILENAME, MODE_PRIVATE);
-            OutputStreamWriter osw = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
-            try (BufferedWriter writer = new BufferedWriter(osw)) {
-                writer.write(str);
-            } catch (IOException e) {
-                Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        } catch (FileNotFoundException e) {
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
-        }
+    EditText getEditText() {
+        return (EditText)findViewById(R.id.editText);
     }
-
-    private void deleteFile() {
-        new File(getFilesDir(), FILENAME).delete();
-    }
-
 }
