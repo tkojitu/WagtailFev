@@ -10,3 +10,7 @@ WagtailFev records body temperature.
 * The app has a button to export records into clipboard.
 * The app has a clear menu to clear records.
 * The app has a textView to show the last temperature.
+
+## License
+
+WagtailFev is licensed by CC0.
