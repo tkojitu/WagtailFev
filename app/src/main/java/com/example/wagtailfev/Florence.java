@@ -2,6 +2,8 @@ package com.example.wagtailfev;
 
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -23,6 +25,7 @@ class Florence {
         activity = arg;
     }
 
+    @NonNull
     FevRecord readRecord() {
         FevRecord rec = new FevRecord();
         try {
@@ -62,6 +65,7 @@ class Florence {
         new File(activity.getFilesDir(), FILENAME).delete();
     }
 
+    @NonNull
     String getLatest() {
         return readRecord().getLatest();
     }
@@ -73,6 +77,7 @@ class Florence {
         writeRecord(rec);
     }
 
+    @NonNull
     String getTimestamp() {
         return DateFormat.getDateInstance(DateFormat.SHORT).format(new Date());
     }

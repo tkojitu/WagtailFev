@@ -6,6 +6,7 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -28,8 +29,16 @@ public class MainActivity extends AppCompatActivity {
 
     void updateLatest() {
         TextView text = (TextView)findViewById(R.id.textView);
-        text.setText(flory.getLatest());
+        text.setText(formatLatest());
         clearEditText();
+    }
+
+    @NonNull
+    String formatLatest() {
+        String[] strs = flory.getLatest().split(",");
+        if (strs.length < 2)
+            return "";
+        return strs[0] + " " + strs[1];
     }
 
     @Override
@@ -63,7 +72,8 @@ public class MainActivity extends AppCompatActivity {
         updateLatest();
     }
 
-    private String readEditText() {
+    @NonNull
+    String readEditText() {
         return getEditText().getText().toString();
     }
 

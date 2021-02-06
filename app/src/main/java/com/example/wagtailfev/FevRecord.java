@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 
 class FevRecord {
     private final StringBuilder buffer = new StringBuilder();
-    private String latest;
+    private String latest = "";
 
     void append(String str) {
         if (str == null)
@@ -21,6 +21,7 @@ class FevRecord {
         return buffer.toString();
     }
 
+    @NonNull
     String getLatest() {
         return latest;
     }
