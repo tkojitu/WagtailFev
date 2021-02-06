@@ -81,4 +81,9 @@ class Florence {
     String getTimestamp() {
         return DateFormat.getDateInstance(DateFormat.SHORT).format(new Date());
     }
+
+    @NonNull
+    String getRecords() {
+        return readRecord().toString();
+    }
 }

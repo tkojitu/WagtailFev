@@ -1,8 +1,11 @@
 package com.example.wagtailfev;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -68,6 +71,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        takeInput();
+    }
+
+    void takeInput() {
         flory.appendRecord(readEditText());
         updateLatest();
     }
@@ -79,5 +86,17 @@ public class MainActivity extends AppCompatActivity {
 
     EditText getEditText() {
         return (EditText)findViewById(R.id.editText);
+    }
+
+    public void onClickCopy(View view) {
+        takeInput();
+        copyRecords();
+    }
+
+    void copyRecords() {
+        String str = flory.getRecords();
+        ClipData clip = ClipData.newPlainText("WagtailFev Records", str);
+        ClipboardManager clipboard = (ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
+        clipboard.setPrimaryClip(clip);
     }
 }
