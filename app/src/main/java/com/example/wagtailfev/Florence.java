@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
+import java.text.DateFormat;
+import java.util.Date;
 
 class Florence {
     private static final String FILENAME = "wagtailfev.txt";
@@ -66,7 +68,12 @@ class Florence {
 
     void appendRecord(String str) {
         FevRecord rec = readRecord();
-        rec.append(str);
+        String timestamp = getTimestamp();
+        rec.append(timestamp + "," + str);
         writeRecord(rec);
+    }
+
+    String getTimestamp() {
+        return DateFormat.getDateInstance(DateFormat.SHORT).format(new Date());
     }
 }
