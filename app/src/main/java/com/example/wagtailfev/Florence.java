@@ -71,9 +71,13 @@ class Florence {
     }
 
     void appendRecord(String str) {
+        String s = str.trim();
+        if (s.isEmpty()) {
+            return;
+        }
         FevRecord rec = readRecord();
         String timestamp = getTimestamp();
-        rec.append(timestamp + "," + str);
+        rec.append(timestamp + "," + s);
         writeRecord(rec);
     }
 
