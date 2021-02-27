@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void clearEditText() {
-        getEditText().setText("");
+        getEditText().getText().clear();
     }
 
     @Override
